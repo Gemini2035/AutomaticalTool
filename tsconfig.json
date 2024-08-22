@@ -8,15 +8,14 @@
     "emitDecoratorMetadata": true,
     "outDir": "./packages",
     "paths": {
-      "*": ["node_modules/*", "src/types/*"] // 添加路径别名
+      "*": ["node_modules/*"], // 添加路径别名
+      "@/*": ["src/*"]
     },
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "strict": true,
     "strictPropertyInitialization": false,
-    "skipLibCheck": true,
-    "resolveJsonModule": true,
     "sourceMap": true,
   },
   "include": ["src/**/*"],

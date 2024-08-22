@@ -1,9 +1,15 @@
-// import { sys } from "typescript"
-import { test } from "./webDriver"
+import { exportDataToExcel } from "./exportAbout";
+import { FileDataCopilot } from "./types";
 
 const main = () => {
-    test()
-    setTimeout(() => {}, 30000)
-}
+  const testData: FileDataCopilot[] = [
+    {
+      commerce: "a",
+      phone: "123444",
+      representative: "阿三",
+    },
+  ];
+  exportDataToExcel(testData);
+};
 
-main()
+main();
