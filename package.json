@@ -1,0 +1,21 @@
+{
+  "name": "AutomationTool",
+  "version": "1.0.0",
+  "description": "Automation tool for commerce search",
+  "main": "./src/main.ts",
+  "author": "Gemini2035",
+  "bin": "./src/main.ts",
+  "type": "moudule",
+  "scripts": {
+    "dev": "ts-node ./src/main.ts",
+    "build": "tsc && pkg ./packages/main.js --out-path=AutomationTool",
+    "build:dev": "tsc && pkg ./packages/main.js --out-path=dist"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@types/node": "^22.5.0",
+    "pkg": "^5.8.1",
+    "tslib": "^2.6.3",
+    "typescript": "^5.5.4"
+  }
+}
