@@ -13,6 +13,7 @@
   "license": "MIT",
   "dependencies": {
     "@types/node": "^22.5.0",
+    "dayjs": "^1.11.13",
     "pkg": "^5.8.1",
     "tsc-alias": "^1.8.10",
     "tslib": "^2.6.3",

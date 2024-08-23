@@ -7,6 +7,7 @@ node_modules/
 # 忽略编译输出
 /dist/
 /packages/
+/output/
 
 # 忽略环境配置文件
 .env
