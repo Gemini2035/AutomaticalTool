@@ -1,14 +1,14 @@
 {
   "compilerOptions": {
     "target": "es6",
-    "module": "commonjs", // 或 "esnext" 视项目需求而定
+    "module": "commonjs",
     "moduleResolution": "node",
-    "baseUrl": "./", // 设定基础目录
+    "baseUrl": "./",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "outDir": "./packages",
     "paths": {
-      "*": ["node_modules/*"], // 添加路径别名
+      "*": ["node_modules/*"],
       "@/*": ["src/*"]
     },
     "resolveJsonModule": true,
