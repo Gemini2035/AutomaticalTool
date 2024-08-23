@@ -1,12 +1,11 @@
 {
   "compilerOptions": {
-    "target": "es6",
-    "module": "commonjs",
+    "target": "ES6",
+    "module": "ESNext",
     "moduleResolution": "node",
     "baseUrl": "./",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "outDir": "./packages",
     "paths": {
       "*": ["node_modules/*"],
       "@/*": ["src/*"]
