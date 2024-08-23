@@ -1,27 +1,29 @@
 {
   "name": "AutomationTool",
   "version": "1.0.0",
+  "type": "module",
   "description": "Automation tool for commerce search",
   "main": "./src/main.ts",
   "author": "Gemini2035",
   "bin": "./src/main.ts",
   "scripts": {
-    "dev": "ts-node -r tsconfig-paths/register --files ./src/main.ts",
-    "build": "tsc && tsc-alias && pkg ./packages/main.js --out-path=AutomationTool",
-    "build:dev": "tsc && tsc-alias && pkg ./packages/main.js --out-path=dist"
+    "dev": "tsup src/main.ts --format esm,cjs --out-dir packages --dts && node ./packages/main.js",
+    "build": "tsup src/main.ts --format cjs --out-dir packages && pkg ./packages/main.js --out-path=AutomationTool",
+    "build:dev": "tsup src --format cjs --out-dir packages && pkg ./packages/main.cjs --out-path=dist --debug"
   },
   "license": "MIT",
   "dependencies": {
-    "@types/node": "^22.5.0",
+    "axios": "^1.7.4",
     "dayjs": "^1.11.13",
-    "pkg": "^5.8.1",
-    "tsc-alias": "^1.8.10",
-    "tslib": "^2.6.3",
-    "typescript": "^5.5.4",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
+    "@swc/core": "^1.7.14",
+    "@types/node": "^22.5.0",
+    "pkg": "^5.8.1",
     "ts-node": "^10.9.2",
-    "tsconfig-paths": "^4.2.0"
+    "tslib": "^2.6.3",
+    "tsup": "^8.2.4",
+    "typescript": "^5.5.4"
   }
 }
