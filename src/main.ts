@@ -10,6 +10,7 @@ const main = () => {
     },
   ];
   exportDataToExcel(testData);
+  setTimeout(() => {}, 3000);
 };
 
 main();
