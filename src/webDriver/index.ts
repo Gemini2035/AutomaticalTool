@@ -1,5 +1,4 @@
 import { httpRequest } from "@/webDriver/request";
-import {config} from 'dotenv'
 
 export type WebDriver = (names: string[]) => Promise<boolean>;
 
