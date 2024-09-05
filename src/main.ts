@@ -1,6 +1,4 @@
-import { exportDataToExcel } from "./exportAbout";
-import { FileDataCopilot } from "./types";
-import { test } from "./webDriver";
+import { webDriver } from "./webDriver";
 
 const main = () => {
   // const testData: FileDataCopilot[] = [
@@ -11,7 +9,7 @@ const main = () => {
   //   },
   // ];
   // exportDataToExcel(testData);
-  test()
+  webDriver(['百度'])
 };
 
 main();
