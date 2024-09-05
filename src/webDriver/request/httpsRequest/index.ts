@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import { HttpRequestOptions } from "./types";
-import { getCookie } from "../cookie";
+import { getCookie } from "./cookie";
 import { headerGenerator } from "./headerGenerator";
 
 const basicRequest = axios.create({
