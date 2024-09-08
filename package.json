@@ -1,5 +1,5 @@
 {
-  "name": "AutomationTool",
+  "name": "automation_tool",
   "version": "1.0.0",
   "type": "module",
   "description": "Automation tool for commerce search",
@@ -15,6 +15,7 @@
   "dependencies": {
     "axios": "^1.7.4",
     "dayjs": "^1.11.13",
+    "fuse.js": "^7.0.0",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {

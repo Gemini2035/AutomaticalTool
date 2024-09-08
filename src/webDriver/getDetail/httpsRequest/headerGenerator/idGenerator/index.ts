@@ -1,4 +1,4 @@
-import { httpRequest } from "@/webDriver/request";
+import { httpRequest } from "../..";
 
 export type IdGenerator = () => Promise<{
   pid: string;
@@ -12,8 +12,10 @@ export const idGenerator: IdGenerator = async () => {
     headerGeneratorForbidden: true
   });
 
-  const pid = resText?.match(/pid='(.*?)'/)?.at(1) || "";
-  const tid = resText?.match(/tid='(.*?)'/)?.at(1) || "";
+  const pid = resText?.toString().match(/pid='(.*?)'/)?.at(1) || "";
+  const tid = resText?.toString().match(/tid='(.*?)'/)?.at(1) || "";
+
+  // TODO: 鲁棒性拓展
 
   return {
     pid,

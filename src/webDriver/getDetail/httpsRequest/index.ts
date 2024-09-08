@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
+import axios, { AxiosRequestConfig, isAxiosError } from "axios";
 import { HttpRequestOptions } from "./types";
 import { getCookie } from "./cookie";
 import { headerGenerator } from "./headerGenerator";
@@ -19,7 +19,8 @@ const basicRequest = axios.create({
     "sec-fetch-mode": "cors",
     "sec-fetch-site": "same-origin",
     "user-agent":
-      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36",
+    // "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36",    
+      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36",
     "x-requested-with": "XMLHttpRequest",
   },
 });
@@ -52,7 +53,10 @@ export const httpRequest = async <T>(
     if (!randomHoldForbidden) setTimeout(() => {}, 1000);
 
     return requestResponse[outputData];
-  } catch (e) {
-    console.log(e);
+  } catch (requestError) {
+    if (isAxiosError(requestError)) {
+      console.log(requestError?.response?.status)
+    }
+    console.log(requestError)
   }
 };
