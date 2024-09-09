@@ -5,7 +5,6 @@ import { join, extname } from "path";
 type GetLocalFileUrl = () => Promise<FileUrl>
 
 export const getLocalFileUrl: GetLocalFileUrl = async () => {
-
     try {
         const inputDir = join(process.cwd(), 'input')
         const files = await promises.readdir(inputDir)
@@ -13,7 +12,7 @@ export const getLocalFileUrl: GetLocalFileUrl = async () => {
             const ext = extname(file).toLowerCase();
             return ext === '.xlsx' || ext === '.xls';
         });
-        return excelFiles.shift() || ''
+        return join(inputDir, excelFiles.shift() || '')
     } catch (e) {
         // TODO: 鲁棒性拓展
         return ''
