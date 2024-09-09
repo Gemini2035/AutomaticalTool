@@ -26,7 +26,7 @@ const basicRequest = axios.create({
 });
 
 export const httpRequest = async <T>(
-  { url, data, ...restAxisoRequestConfig }: AxiosRequestConfig<T>,
+  { url, data, ...restAxisoRequestConfig }: AxiosRequestConfig,
   {
     outputData = "data",
     headerGeneratorForbidden = false,
