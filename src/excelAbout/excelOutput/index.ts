@@ -5,9 +5,9 @@ import fs from "fs";
 import path from "path";
 import { timeFormater } from "./utils/timeFormater";
 
-type WriteFileType = (input: FileDataCopilot[]) => boolean;
+export type ExcelOutput = (input: FileDataCopilot[]) => boolean;
 
-export const exportDataToExcel: WriteFileType = (input) => {
+export const excelOutput: ExcelOutput = (input) => {
   const excelBuffer = dataTransformer(input);
   try {
     const workbook = utils.book_new();
