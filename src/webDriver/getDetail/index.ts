@@ -1,15 +1,16 @@
-import { getLegalRepresentative } from "./getLegalRepresentative";
+import { getCommerceInfo } from "./getCommerceInfo";
+import { getPhone } from "./getPhone";
 
 export type GetDetail = (
     name: string
-) => Promise<boolean>;
+) => Promise<{ partnerName: string, phone: string }>;
 
 export const getDetail: GetDetail = async (name) => {
 
-    const partnerName = await getLegalRepresentative(name)
+    const { KeyNo = '', OperName = '' } = await getCommerceInfo(name) || {}
 
-    console.log(partnerName)
-
-    setTimeout(() => { }, 3000);
-    return true;
+    return {
+        partnerName: OperName,
+        phone: await getPhone(KeyNo)
+    }
 };
