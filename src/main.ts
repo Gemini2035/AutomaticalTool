@@ -1,7 +1,10 @@
+import { excelInput } from "./excelAbout";
 import { webDriver } from "./webDriver";
 
 const main = () => {
-  // const testData: FileDataCopilot[] = [
+  excelInput()
+  
+  // const testData: CommerceDataInCode[] = [
   //   {
   //     commerce: "a",
   //     phone: "123444",
@@ -9,7 +12,7 @@ const main = () => {
   //   },
   // ];
   // exportDataToExcel(testData);
-  webDriver(['百度'])
+  // webDriver(['百度'])
 };
 
 main();

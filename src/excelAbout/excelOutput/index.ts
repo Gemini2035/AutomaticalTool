@@ -1,11 +1,11 @@
-import { CustomError, FileDataCopilot } from "./types";
-import { dataTransformer } from "./utils";
+import { CustomError, CommerceDataInCode } from "../types";
+import { dataTransformer } from "./dataTransformer";
 import { utils, writeFile } from "xlsx";
 import fs from "fs";
 import path from "path";
-import { timeFormater } from "./utils/timeFormater";
+import { timeFormater } from "./timeFormater";
 
-export type ExcelOutput = (input: FileDataCopilot[]) => boolean;
+type ExcelOutput = (input: CommerceDataInCode[]) => boolean;
 
 export const excelOutput: ExcelOutput = (input) => {
   const excelBuffer = dataTransformer(input);

@@ -1,2 +1,2 @@
-export * from './outputTool'
-export * from './inputAbout'
+export * from './excelOutput'
+export * from './excelInput'

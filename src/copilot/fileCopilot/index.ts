@@ -1,7 +1,5 @@
-export namespace FileCopilot {
-    export interface CommerceDataInCode {
-        representative: string;
-        commerce: string;
-        phone: string;
-      }     
+export type CommerceDataInCode = {
+    representative: string;
+    commerce: string;
+    phone: string;
 }

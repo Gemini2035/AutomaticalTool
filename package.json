@@ -7,9 +7,9 @@
   "author": "Gemini2035",
   "bin": "./src/main.ts",
   "scripts": {
-    "dev": "tsup src/main.ts --format esm,cjs --out-dir packages --dts && node ./packages/main.js",
-    "build": "tsup src/main.ts --format cjs --out-dir packages && pkg ./packages/main.js --out-path=AutomationTool",
-    "build:dev": "tsup src --format cjs --out-dir packages && pkg ./packages/main.cjs --out-path=dist --debug"
+    "dev": "tsup src/main.ts --format esm --out-dir packages --dts && node ./packages/main.js",
+    "build": "tsup src/main.ts --format esm --out-dir packages && pkg ./packages/main.js --out-path=AutomationTool --targets node18-win-arm64",
+    "build:dev": "tsup src --format esm --out-dir packages && pkg ./packages/main.js --out-path=dist --debug --targets node18-win-arm64 && rm -rf packages"
   },
   "license": "MIT",
   "dependencies": {
