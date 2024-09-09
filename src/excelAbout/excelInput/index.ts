@@ -1,12 +1,10 @@
-import { CommerceNames } from "../types"
 import { getLocalFileUrl } from "./getLocalFileUrl"
-import { readExcel } from "./readFile"
+import { ExcelSheetItem, readExcel } from "./readExcel"
 
-type ExcelInput = () => Promise<CommerceNames>
+type ExcelInput = () => Promise<ExcelSheetItem[]>
 
 export const excelInput: ExcelInput = async () => {
     const fileName = await getLocalFileUrl()
-    console.log('111', fileName)
-    const originData = readExcel(fileName)
-    return ['百度']
+    const excelData = readExcel(fileName)
+    return excelData
 }

@@ -1,9 +1,11 @@
 import { excelInput } from "./excelAbout";
 import { webDriver } from "./webDriver";
 
-const main = () => {
-  excelInput()
+const main = async () => {
+  const excelInputData = await excelInput()
   
+  console.log(excelInputData[0].data[0])
+
   // const testData: CommerceDataInCode[] = [
   //   {
   //     commerce: "a",
@@ -12,7 +14,7 @@ const main = () => {
   //   },
   // ];
   // exportDataToExcel(testData);
-  // webDriver(['百度'])
+  // webDriver(['四川川环科技股份有限公司'])
 };
 
 main();

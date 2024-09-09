@@ -1,5 +1,1 @@
-export type CommerceDataInCode = {
-    representative: string;
-    commerce: string;
-    phone: string;
-}
+export type CommerceDataInCode = {keyName: string, keyValue: string}[]
