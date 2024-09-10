@@ -7,17 +7,6 @@ export type ExcelSheetItem = { sheetName: string, data: CommerceDataInCode[] }
 
 type ReadExcel = (fileUrl: FileUrl) => ExcelSheetItem[]
 
-/* 
-output example: 
-{
-    sheetName: 'test',
-    data: [
-        [{keyName: 'data0key0', keyValue: 'data0keyValue0'}, {keyName: 'data0key1', keyValue: 'data0keyValue1'}],
-        [{keyName: 'data0key1', keyValue: 'data0keyValue1'}]
-    ]
-}
-*/
-
 export const readExcel: ReadExcel = (fileUrl) => {
     // TODO: 鲁棒性拓展
     const workbook = XLSX.readFile(fileUrl);
