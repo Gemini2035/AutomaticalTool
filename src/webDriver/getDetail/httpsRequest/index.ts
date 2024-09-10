@@ -30,7 +30,6 @@ export const httpRequest = async <T>(
   {
     outputData = "data",
     headerGeneratorForbidden = false,
-    randomHoldForbidden = false,
   }: HttpRequestOptions = {}
 ): Promise<T | undefined> => {
   try {
@@ -49,8 +48,6 @@ export const httpRequest = async <T>(
         ...restAxisoRequestConfig,
       },
     });
-
-    if (!randomHoldForbidden) setTimeout(() => {}, 1000);
 
     return requestResponse[outputData];
   } catch (requestError) {
