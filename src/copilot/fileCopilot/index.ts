@@ -1,1 +1,1 @@
-export type CommerceDataInCode = {keyName: string, keyValue: string}[]
+export type CommerceDataInCode = Record<string, string>

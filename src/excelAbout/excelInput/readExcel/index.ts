@@ -24,9 +24,7 @@ export const readExcel: ReadExcel = (fileUrl) => {
     const sheetNames = workbook.SheetNames;
     const result = sheetNames.map(sheetName => ({
         sheetName,
-        data: XLSX.utils.sheet_to_json<ExcelOriginDataItem>(workbook.Sheets[sheetName]).map(originDataItem => Object.entries(originDataItem).map(([keyName, keyValue]) => ({
-            keyName, keyValue
-        })))
+        data: XLSX.utils.sheet_to_json<ExcelOriginDataItem>(workbook.Sheets[sheetName])
     })
     )
     return result
