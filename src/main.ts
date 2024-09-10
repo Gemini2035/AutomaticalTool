@@ -3,8 +3,18 @@ import { webDriver } from "./webDriver";
 
 const main = async () => {
   const excelInputData = await excelInput()
-  
-  console.log(excelInputData[0].data[0])
+
+  const dataForOutput = excelInputData.map (async({data, ...restField}) => {
+
+    let dataAfterHandle
+    
+    if (data.length) dataAfterHandle = await webDriver(data) 
+    
+    return {
+      data: dataAfterHandle || [],
+      ...restField
+    }
+  })
 
   // const testData: CommerceDataInCode[] = [
   //   {
