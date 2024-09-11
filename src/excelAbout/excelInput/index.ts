@@ -1,5 +1,6 @@
+import { ExcelSheetItem } from "../types"
 import { getLocalFileUrl } from "./getLocalFileUrl"
-import { ExcelSheetItem, readExcel } from "./readExcel"
+import { readExcel } from "./readExcel"
 
 type ExcelInput = () => Promise<ExcelSheetItem[]>
 

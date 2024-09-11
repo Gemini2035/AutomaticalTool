@@ -6,18 +6,13 @@ const main = async () => {
   const excelInputData = await excelInput()
   console.log('excel 表内容读取完毕!')
 
-  // TODO: test for ... of ... or promise.all
   console.log('正在获取数据...')
-  const dataForOutput = await Promise.all(excelInputData.map(async ({ data, ...restField }) => {
-    if (!data.length) return {
-      data,
-      ...restField
-    }
-    return {
+  const dataForOutput = []
+  for (const { data, ...restField } of excelInputData)
+    dataForOutput.push({
       ...(await webDriver(data) || {}),
       ...restField
-    }
-  }))
+    })
   console.log('数据获取完成！')
 
   console.log('正在写入excel表...')

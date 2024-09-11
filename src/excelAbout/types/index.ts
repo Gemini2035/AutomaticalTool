@@ -7,3 +7,5 @@ export type ExcelBufferItem = string[]
 export type FileUrl = string
 export type ExcelSheetItem = { sheetName: string, data: CommerceDataInCode[] }
 export type CommerceKeys = (keyof CommerceDataInCode)[]
+export type ExcelSheetItemWithKeys = ExcelSheetItem & { commerceKeys: CommerceKeys }
+

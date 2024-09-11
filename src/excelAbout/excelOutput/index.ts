@@ -1,13 +1,12 @@
-import { ExcelSheetItem, CommerceKeys } from "../types";
+import { ExcelSheetItemWithKeys } from "../types";
 import { dataTransformer } from "./dataTransformer";
 import XLSX from "xlsx";
 import fs from "fs";
 import path from "path";
 import { timeFormater } from "./timeFormater";
 
-type ExcelOutputItem = ExcelSheetItem & { commerceKeys: CommerceKeys }
 
-type ExcelOutput = (input: ExcelOutputItem[]) => void;
+type ExcelOutput = (input: ExcelSheetItemWithKeys[]) => void;
 
 export const excelOutput: ExcelOutput = (input) => {
   // TODO: 鲁棒性拓展
