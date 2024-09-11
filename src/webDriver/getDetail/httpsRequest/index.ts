@@ -1,6 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse, isAxiosError } from "axios";
 import { getCookie } from "./cookie";
 import { headerGenerator } from "./headerGenerator";
+import { setDelay } from "@/setDelay";
 
 type HttpRequestOptions = Partial<{
   outputData: keyof AxiosResponse;

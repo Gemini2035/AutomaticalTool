@@ -1,6 +1,7 @@
 import { CommerceDataInCode } from "./types";
 import { getDetail } from "./getDetail";
 import { getDataKey } from "./getDataKey";
+import { setDelay } from "@/setDelay";
 
 export type WebDriver = (commerceInfo: CommerceDataInCode[]) => Promise<{
   commerceKeys: (keyof CommerceDataInCode)[]

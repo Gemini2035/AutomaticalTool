@@ -9,7 +9,7 @@ type CustomDelayOptions = Partial<{
 
 type SetDelay = (options?: CustomDelayOptions, delayTime?: number,) => void
 
-const setDelay: SetDelay = ({ msg: {
+export const setDelay: SetDelay = ({ msg: {
     startMsg = '',
     endMsg = '',
 } = {}, randomSeed, delayFun } = {}, delayTime) => {
