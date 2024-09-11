@@ -1,39 +1,28 @@
 import { excelInput, excelOutput } from "./excelAbout";
 import { webDriver } from "./webDriver";
 
-const testData = [{
-  sheetName: '111',
-  commerceKeys: ['企业名称', '法人', '电话'],
-  data: [
-    {
-      '企业名称': 'test1',
-      '法人': 'test2',
-      '电话': 'test3'
-    }
-  ]
-}]
-
 const main = async () => {
+  console.log('正在读取excel表内容...')
   const excelInputData = await excelInput()
+  console.log('excel 表内容读取完毕!')
 
-  const dataForOutput = excelInputData.map (async({data, ...restField}) => {
-    if (!data.length) return {}
-
+  // TODO: test for ... of ... or promise.all
+  console.log('正在获取数据...')
+  const dataForOutput = await Promise.all(excelInputData.map(async ({ data, ...restField }) => {
+    if (!data.length) return {
+      data,
+      ...restField
+    }
     return {
       ...(await webDriver(data) || {}),
       ...restField
     }
-  })
+  }))
+  console.log('数据获取完成！')
 
-  // const testData: CommerceDataInCode[] = [
-  //   {
-  //     commerce: "a",
-  //     phone: "123444",
-  //     representative: "阿三",
-  //   },
-  // ];
-  excelOutput(testData);
-  // webDriver(['四川川环科技股份有限公司'])
+  console.log('正在写入excel表...')
+  excelOutput(dataForOutput);
+  console.log('写入excel表完毕!')
 };
 
 main();
