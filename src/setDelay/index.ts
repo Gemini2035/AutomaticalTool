@@ -14,7 +14,7 @@ export const setDelay: SetDelay = ({ msg: {
     endMsg = '',
 } = {}, randomSeed, delayFun } = {}, delayTime) => {
     if (startMsg) console.log(startMsg),
-        // 默认延时0.5-3s
-        setTimeout(() => delayFun?.(), delayTime || randomSeed?.() || (Math.random() * 2501 + 500))
+        // 默认延时1-3s
+        setTimeout(() => delayFun?.(), delayTime || randomSeed?.() || (Math.random() * 2001 + 1000))
     if (endMsg) console.log(endMsg)
 }
