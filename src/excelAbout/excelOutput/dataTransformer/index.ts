@@ -1,6 +1,6 @@
-import { ExcelBufferItem, CommerceDataInCode } from "../../types";
+import { ExcelBufferItem, CommerceDataInCode, CommerceKeys } from "../../types";
 
-type DataTransformerType = (input: CommerceDataInCode[]) => ExcelBufferItem[];
+type DataTransformerType = (input: CommerceDataInCode[], commerceKeys: CommerceKeys) => ExcelBufferItem[];
 
-export const dataTransformer: DataTransformerType = (input) =>
-  input.map((item) => Object.values(item)) as ExcelBufferItem[];
+export const dataTransformer: DataTransformerType = (input, commerceKeys) =>
+  input.map((dataItem) => commerceKeys.map((keyItem) => dataItem?.[keyItem] || ''));

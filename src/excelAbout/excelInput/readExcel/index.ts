@@ -1,10 +1,7 @@
-import { CommerceDataInCode, FileUrl } from "@/excelAbout/types";
+import { ExcelSheetItem, FileUrl } from "@/excelAbout/types";
 import XLSX from "xlsx"
 
 type ExcelOriginDataItem = Record<string, string>
-
-export type ExcelSheetItem = { sheetName: string, data: CommerceDataInCode[] }
-
 type ReadExcel = (fileUrl: FileUrl) => ExcelSheetItem[]
 
 export const readExcel: ReadExcel = (fileUrl) => {

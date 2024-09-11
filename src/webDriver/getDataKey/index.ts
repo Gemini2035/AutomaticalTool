@@ -1,27 +1,33 @@
 import { CommerceDataInCode } from "../types";
 import Fuse from "fuse.js";
 
-type NecessaryKey = {
-    nameKey: string,
-    phoneKey: string,
-    partnerKey: string
+enum NecessaryKeyDic {
+    nameKey = '企业名称',
+    partnerKey = '法定代表人',
+    phoneKey = '手机'
 }
 
-type GetDataKey = (dataKeys: (keyof CommerceDataInCode)[]) => NecessaryKey
+type CommerceDataInCodeKey = keyof CommerceDataInCode
+type NecessaryKey = Record<keyof typeof NecessaryKeyDic, CommerceDataInCodeKey>
 
-const NAME_KEY = '企业名称'
-const PHONE_KEY = '手机'
-const PARTNER_KEY = '法定代表人'
+type GetDataKey = (dataKeys: CommerceDataInCodeKey[]) => NecessaryKey & { allkeys: CommerceDataInCodeKey[] }
 
 export const getDataKey: GetDataKey = (dataKeys) => {
     const fuseInstance = new Fuse(dataKeys, { threshold: 0.1 })
-    const nameKey = fuseInstance.search(NAME_KEY)?.shift()?.item
-    if (!nameKey) throw Error
-    const phoneKey = fuseInstance.search(PHONE_KEY)?.shift()?.item || PHONE_KEY
-    const partnerKey = fuseInstance.search(PARTNER_KEY)?.shift()?.item || PARTNER_KEY
+    const necessaryKeyInArray: CommerceDataInCodeKey[] = []
+    const necessaryKey = Object.entries(NecessaryKeyDic).reduce((prev, [key, searchKey]) => {
+        const keyResult = fuseInstance.search(searchKey)?.shift()?.item || searchKey
+        necessaryKeyInArray.push(keyResult)
+        return {
+            ...prev,
+            [key]: keyResult
+        }
+    }, {} as NecessaryKey)
+    // 鲁棒性拓展
+    if (!necessaryKey?.nameKey) throw Error;
+
     return {
-        nameKey,
-        phoneKey,
-        partnerKey
+       ...necessaryKey,
+       allkeys: [...necessaryKeyInArray, ...dataKeys.filter((keyItem) => !necessaryKeyInArray.includes(keyItem))]
     }
 }

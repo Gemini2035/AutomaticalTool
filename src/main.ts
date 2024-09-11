@@ -1,17 +1,26 @@
-import { excelInput } from "./excelAbout";
+import { excelInput, excelOutput } from "./excelAbout";
 import { webDriver } from "./webDriver";
+
+const testData = [{
+  sheetName: '111',
+  commerceKeys: ['企业名称', '法人', '电话'],
+  data: [
+    {
+      '企业名称': 'test1',
+      '法人': 'test2',
+      '电话': 'test3'
+    }
+  ]
+}]
 
 const main = async () => {
   const excelInputData = await excelInput()
 
   const dataForOutput = excelInputData.map (async({data, ...restField}) => {
+    if (!data.length) return {}
 
-    let dataAfterHandle
-    
-    if (data.length) dataAfterHandle = await webDriver(data) 
-    
     return {
-      data: dataAfterHandle || [],
+      ...(await webDriver(data) || {}),
       ...restField
     }
   })
@@ -23,7 +32,7 @@ const main = async () => {
   //     representative: "阿三",
   //   },
   // ];
-  // exportDataToExcel(testData);
+  excelOutput(testData);
   // webDriver(['四川川环科技股份有限公司'])
 };
 
