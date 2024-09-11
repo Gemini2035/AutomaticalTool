@@ -15,17 +15,22 @@ export const webDriver: WebDriver = async (commerceInfo) => {
   const failNameList = [];
   return {
     commerceKeys: allkeys,
-    // data: commerceInfo.map(async (commerceItem) => {
-    //   if (!!commerceItem[phoneKey] && commerceItem[phoneKey] !== '座机' && commerceItem[partnerKey]) return commerceItem
-    //   const {partnerName, phone} = await getDetail(commerceItem[nameKey]);
-    //   // TODO: 优化延时
-    //   setTimeout(() => {}, 1000)
-    //   return {
-    //     ...commerceItem,
-    //     [phoneKey]: phone,
-    //     [partnerName]: partnerName
-    //   }
-    // })
-    data: []
+    data: commerceInfo.map(async (commerceItem) => {
+      if (!!commerceItem[phoneKey] && commerceItem[phoneKey] !== '座机' && commerceItem[partnerKey]) return commerceItem
+      const {partnerName, phone} = await getDetail(commerceItem[nameKey]);
+      setDelay({
+        msg: {
+          startMsg: `${commerceItem[nameKey]}信息获取完成, 正在冷却...`,
+          endMsg: `冷却完成, 准备获取下一条信息`
+        }
+      })
+
+      return {
+        ...commerceItem,
+        [phoneKey]: phone,
+        [partnerName]: partnerName
+      }
+    })
+    // data: []
   }
 };
