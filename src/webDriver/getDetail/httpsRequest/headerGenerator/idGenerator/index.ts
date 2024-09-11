@@ -9,7 +9,8 @@ export const idGenerator: IdGenerator = async () => {
   const resText = await httpRequest<string>({
     url: "web/search/advance?hasState=true"
   }, {
-    headerGeneratorForbidden: true
+    headerGeneratorForbidden: true,
+    needDelay: true
   });
 
   const pid = resText?.toString().match(/pid='(.*?)'/)?.at(1) || "";

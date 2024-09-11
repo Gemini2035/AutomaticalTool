@@ -1,7 +1,13 @@
-import axios, { AxiosRequestConfig, isAxiosError } from "axios";
-import { HttpRequestOptions } from "./types";
+import axios, { AxiosRequestConfig, AxiosResponse, isAxiosError } from "axios";
 import { getCookie } from "./cookie";
 import { headerGenerator } from "./headerGenerator";
+
+type HttpRequestOptions = Partial<{
+  outputData: keyof AxiosResponse;
+  headerGeneratorForbidden: boolean;
+  needDelay: boolean;
+  retryTime: number
+}>;
 
 const basicRequest = axios.create({
   baseURL: "https://www.qcc.com",
@@ -30,30 +36,44 @@ export const httpRequest = async <T>(
   {
     outputData = "data",
     headerGeneratorForbidden = false,
+    needDelay = false,
+    retryTime = 1
   }: HttpRequestOptions = {}
 ): Promise<T | undefined> => {
-  try {
-    if (!basicRequest.defaults?.headers?.["cookie"]) {
-      basicRequest.defaults.headers["cookie"] = await getCookie();
-    }
-    const headers = headerGeneratorForbidden
-      ? {}
-      : await headerGenerator(url, data);
+  if (needDelay) setDelay({msg: {
+    startMsg: '为防止被反爬措施屏蔽, http请求正在冷却',
+    endMsg: 'http请求冷却完成'
+  }})
 
-    const requestResponse = await basicRequest<T>({
-      headers,
-      ...{
-        url,
-        data,
-        ...restAxisoRequestConfig,
-      },
-    });
-
-    return requestResponse[outputData];
-  } catch (requestError) {
-    if (isAxiosError(requestError)) {
-      console.log(requestError?.response?.status)
+  for (let time = 0; time < retryTime; time ++) {
+    try {
+      if (!basicRequest.defaults?.headers?.["cookie"]) {
+        basicRequest.defaults.headers["cookie"] = await getCookie();
+      }
+      const headers = headerGeneratorForbidden
+        ? {}
+        : await headerGenerator(url, data);
+  
+      const requestResponse = await basicRequest<T>({
+        headers,
+        ...{
+          url,
+          data,
+          ...restAxisoRequestConfig,
+        },
+      });
+  
+      return requestResponse[outputData];
+    } catch (requestError) {
+      // TODO: 拆分错误处理逻辑
+      if (isAxiosError(requestError)) {
+        if (requestError?.response?.status) {
+          basicRequest.defaults.headers["cookie"] = await getCookie();
+          continue
+        }
+      }
+      console.log(requestError)
+      return
     }
-    console.log(requestError)
   }
 };
