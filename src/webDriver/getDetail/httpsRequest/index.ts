@@ -26,7 +26,7 @@ const basicRequest = axios.create({
     "sec-fetch-mode": "cors",
     "sec-fetch-site": "same-origin",
     "user-agent":
-    // "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36",    
+      // "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36",    
       "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36",
     "x-requested-with": "XMLHttpRequest",
   },
@@ -38,15 +38,17 @@ export const httpRequest = async <T>(
     outputData = "data",
     headerGeneratorForbidden = false,
     needDelay = false,
-    retryTime = 1
+    retryTime = 3
   }: HttpRequestOptions = {}
 ): Promise<T | undefined> => {
-  if (needDelay) await setDelay({msg: {
-    startMsg: '为防止被反爬措施屏蔽, http请求正在冷却',
-    endMsg: 'http请求冷却完成'
-  }})
+  if (needDelay) await setDelay({
+    msg: {
+      startMsg: '为防止被反爬措施屏蔽, http请求正在冷却',
+      endMsg: 'http请求冷却完成'
+    }
+  })
 
-  for (let time = 0; time < retryTime; time ++) {
+  for (let time = 0; time < retryTime; time++) {
     try {
       if (!basicRequest.defaults?.headers?.["cookie"]) {
         basicRequest.defaults.headers["cookie"] = await getCookie();
@@ -54,7 +56,7 @@ export const httpRequest = async <T>(
       const headers = headerGeneratorForbidden
         ? {}
         : await headerGenerator(url, data);
-  
+
       const requestResponse = await basicRequest<T>({
         headers,
         ...{
@@ -63,17 +65,21 @@ export const httpRequest = async <T>(
           ...restAxisoRequestConfig,
         },
       });
-  
+
       return requestResponse[outputData];
     } catch (requestError) {
       // TODO: 拆分错误处理逻辑
       if (isAxiosError(requestError)) {
+          // TODO: 409处理
+          console.log(requestError?.response?.status)
         if (requestError?.response?.status) {
+          console.log('axios request error:', requestError?.response?.data)
           basicRequest.defaults.headers["cookie"] = await getCookie();
+          await setDelay()
           continue
         }
       }
-      console.log(requestError)
+      console.log('other error:', requestError)
       return
     }
   }

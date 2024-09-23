@@ -12,24 +12,26 @@ enum PhoneStatus {
 }
 
 export const getPhone: GetPhone = async (keyNo) => {
-    const { HisTelList = [], VTList = [] } = await httpRequest<{ HisTelList: { Tel: PhoneType, Status: '1' | '2' | '3' }[], VTList?: { k: PhoneType, d: PhoneStatus }[] }>({
+    const response = await httpRequest<{ HisTelList: { Tel: PhoneType, Status: '1' | '2' | '3' }[], VTList?: { k: PhoneType, d: PhoneStatus }[] }>({
         url: '/api/customDetail/getPhone',
         data: {
             keyNo,
             from: 'search'
         },
         method: 'Post'
-    }) || {}
+    })
 
     // TODO: 鲁棒性拓展
 
-    if (HisTelList.length) {
-        return HisTelList.filter(({ Tel, Status }) => {
+    const { HisTelList, VTList } = response || {}
+
+    if (response) {
+        return HisTelList?.filter(({ Tel, Status }) => {
             if (Status !== '1') return false
-            return !!VTList.find(({ k, d }) => k === Tel && d === PhoneStatus.success)
+            return !!VTList?.find(({ k, d }) => k === Tel && d === PhoneStatus.success)
         }).shift()?.Tel || DEFAULT_PHONE
     } else {
-        return VTList.find(({ d }) => d === PhoneStatus.success)?.k || DEFAULT_PHONE
+        return VTList?.find(({ d }) => d === PhoneStatus.success)?.k || DEFAULT_PHONE
     }
 
 
