@@ -69,17 +69,18 @@ export const httpRequest = async <T>(
       return requestResponse[outputData];
     } catch (requestError) {
       // TODO: 拆分错误处理逻辑
+      console.log(url, 'error!')
       if (isAxiosError(requestError)) {
           // TODO: 409处理
-          console.log(requestError?.response?.status)
         if (requestError?.response?.status) {
-          console.log('axios request error:', requestError?.response?.data)
+          console.log('网站请求错误: ', requestError?.response?.data)
           basicRequest.defaults.headers["cookie"] = await getCookie();
           await setDelay()
+          console.log(`正在重试... 当前重试次数: ${time + 1}, 重试上限: ${retryTime}`)
           continue
         }
       }
-      console.log('other error:', requestError)
+      console.log('未知错误', requestError)
       return
     }
   }
