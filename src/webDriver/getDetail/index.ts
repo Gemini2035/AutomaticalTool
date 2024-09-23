@@ -1,3 +1,4 @@
+import { setDelay } from "@/setDelay";
 import { getCommerceInfo } from "./getCommerceInfo";
 import { getPhone } from "./getPhone";
 
@@ -8,6 +9,8 @@ export type GetDetail = (
 export const getDetail: GetDetail = async (name) => {
 
     const { KeyNo = '', OperName = '' } = await getCommerceInfo(name) || {}
+
+    await setDelay()
 
     return {
         partnerName: OperName,

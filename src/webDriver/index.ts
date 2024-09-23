@@ -1,7 +1,7 @@
 import { CommerceDataInCode } from "./types";
 import { getDetail } from "./getDetail";
 import { getDataKey } from "./getDataKey";
-import { setDelay } from "@/setDelay";
+import { innerRandomSeed, setDelay } from "@/setDelay";
 
 export type WebDriver = (commerceInfo: CommerceDataInCode[]) => Promise<{
   commerceKeys: (keyof CommerceDataInCode)[]
@@ -23,12 +23,15 @@ export const webDriver: WebDriver = async (commerceInfo) => {
     }
 
     const { partnerName, phone } = await getDetail(commerceItem[nameKey]);
-    setDelay({
+    
+    const delayTime = innerRandomSeed(25000, 35000)
+    await setDelay({
       msg: {
-        startMsg: `${commerceItem[nameKey]}信息获取完成, 正在冷却...`,
+        startMsg: `${commerceItem[nameKey]}信息获取完成, 正在冷却 ${delayTime}ms...`,
         endMsg: `冷却完成, 准备获取下一条信息`
       }
-    })
+    }, delayTime)
+
     data.push({
       ...commerceItem,
       [phoneKey]: phone,

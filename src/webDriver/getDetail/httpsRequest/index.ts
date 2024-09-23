@@ -41,7 +41,7 @@ export const httpRequest = async <T>(
     retryTime = 1
   }: HttpRequestOptions = {}
 ): Promise<T | undefined> => {
-  if (needDelay) setDelay({msg: {
+  if (needDelay) await setDelay({msg: {
     startMsg: '为防止被反爬措施屏蔽, http请求正在冷却',
     endMsg: 'http请求冷却完成'
   }})

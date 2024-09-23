@@ -1,3 +1,7 @@
+type InnerRandomSeed = (low: number, high: number) => number;
+
+export const innerRandomSeed: InnerRandomSeed = (low, high) => (low + Math.floor(Math.random() * (high - low + 1)))
+
 type CustomDelayOptions = Partial<{
     msg: Partial<{
         startMsg: string,
@@ -7,14 +11,19 @@ type CustomDelayOptions = Partial<{
     delayFun: Function
 }>
 
-type SetDelay = (options?: CustomDelayOptions, delayTime?: number,) => void
+type SetDelay = (options?: CustomDelayOptions, delayTime?: number,) => Promise<void>
 
-export const setDelay: SetDelay = ({ msg: {
+export const setDelay: SetDelay = async ({ msg: {
     startMsg = '',
     endMsg = '',
 } = {}, randomSeed, delayFun } = {}, delayTime) => {
-    if (startMsg) console.log(startMsg),
-        // 默认延时1-3s
-        setTimeout(() => delayFun?.(), delayTime || randomSeed?.() || (Math.random() * 2001 + 1000))
-    if (endMsg) console.log(endMsg)
+    // 默认延时1-3s
+    await new Promise<void>(resolve => {
+        if (startMsg) console.log(startMsg)
+        setTimeout(() => {
+            delayFun?.()
+            if (endMsg) console.log(endMsg)
+            resolve()
+        }, (delayTime === undefined ? undefined : delayTime) || randomSeed?.() || innerRandomSeed(1000, 3000))
+    })
 }
