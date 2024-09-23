@@ -23,6 +23,7 @@ export const webDriver: WebDriver = async (commerceInfo) => {
     }
 
     const { partnerName, phone } = await getDetail(commerceItem[nameKey]);
+    console.log(partnerName, phone)
     
     const delayTime = innerRandomSeed(25000, 35000)
     await setDelay({

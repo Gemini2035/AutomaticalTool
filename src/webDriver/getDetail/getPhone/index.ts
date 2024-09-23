@@ -20,19 +20,15 @@ export const getPhone: GetPhone = async (keyNo) => {
         },
         method: 'Post'
     })
-
     // TODO: 鲁棒性拓展
 
     const { HisTelList, VTList } = response || {}
 
-    if (response) {
-        return HisTelList?.filter(({ Tel, Status }) => {
-            if (Status !== '1') return false
-            return !!VTList?.find(({ k, d }) => k === Tel && d === PhoneStatus.success)
-        }).shift()?.Tel || DEFAULT_PHONE
-    } else {
-        return VTList?.find(({ d }) => d === PhoneStatus.success)?.k || DEFAULT_PHONE
-    }
+    if (!response) console.log('111')
 
+    return HisTelList?.filter(({ Tel, Status }) => {
+        if (Status !== '1') return false
+        return !!VTList?.find(({ k, d }) => k === Tel && d === PhoneStatus.success)
+    }).shift()?.Tel || VTList?.find(({ d }) => d === PhoneStatus.success)?.k || DEFAULT_PHONE
 
 }

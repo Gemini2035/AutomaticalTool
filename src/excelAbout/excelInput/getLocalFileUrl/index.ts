@@ -12,7 +12,9 @@ export const getLocalFileUrl: GetLocalFileUrl = async () => {
             const ext = extname(file).toLowerCase();
             return ext === '.xlsx' || ext === '.xls';
         });
-        return join(inputDir, excelFiles.pop() || '')
+        const fileName = excelFiles.pop()
+        console.log(`已读取到 ${fileName} 文件`)
+        return join(inputDir,  fileName || '')
     } catch (e) {
         // TODO: 鲁棒性拓展
         return ''
