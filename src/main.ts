@@ -20,4 +20,5 @@ const main = async () => {
   console.log('写入excel表完毕!')
 };
 
+// global
 main();

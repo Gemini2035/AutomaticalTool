@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse, isAxiosError } from "axios";
-import { getCookie } from "./cookie";
 import { headerGenerator } from "./headerGenerator";
 import { setDelay } from "@/setDelay";
+import { getBrowserInfo } from "./getBrowserInfo";
 
 type HttpRequestOptions = Partial<{
   outputData: keyof AxiosResponse;
@@ -11,7 +11,7 @@ type HttpRequestOptions = Partial<{
 }>;
 
 const basicRequest = axios.create({
-  baseURL: "https://www.qcc.com",
+  baseURL:'https://www.qcc.com',
   method: "get",
   headers: {
     accept: "application/json, text/plain, */*",
@@ -25,9 +25,6 @@ const basicRequest = axios.create({
     "sec-fetch-dest": "empty",
     "sec-fetch-mode": "cors",
     "sec-fetch-site": "same-origin",
-    "user-agent":
-      // "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36",    
-      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36",
     "x-requested-with": "XMLHttpRequest",
   },
 });
@@ -50,8 +47,10 @@ export const httpRequest = async <T>(
 
   for (let time = 0; time < retryTime; time++) {
     try {
-      if (!basicRequest.defaults?.headers?.["cookie"]) {
-        basicRequest.defaults.headers["cookie"] = await getCookie();
+      if (!basicRequest.defaults?.headers?.["cookie"] || !basicRequest.defaults?.headers?.["user-agent"]) {
+        const {ua, cookie} = await getBrowserInfo()
+        basicRequest.defaults.headers["cookie"] = cookie;
+        basicRequest.defaults.headers["user-agent"] = ua;
       }
       const headers = headerGeneratorForbidden
         ? {}
@@ -74,7 +73,7 @@ export const httpRequest = async <T>(
         // TODO: 409处理
         if (requestError?.response?.status) {
           console.log('网站请求错误: ', requestError?.response?.data)
-          basicRequest.defaults.headers["cookie"] = await getCookie();
+          basicRequest.defaults.headers["cookie"] = '';
           await setDelay()
           console.log(`正在重试... 当前重试次数: ${time + 1}, 重试上限: ${retryTime}`)
           continue
