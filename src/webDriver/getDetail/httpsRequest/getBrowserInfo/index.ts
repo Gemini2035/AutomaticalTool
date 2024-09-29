@@ -7,18 +7,16 @@ type GetBrowserInfo = () => Promise<{
     cookie: string;
 }>
 
+let browserPath = process.env?.CHROMEPOSITION
+
 export const getBrowserInfo: GetBrowserInfo = async () => {
     console.log('需要在浏览器中完成操作...')
 
-    if (!process.env?.CHROMEPOSITION) {
-        process.env.CHROMEPOSITION = await getBrowserExe()
-    }
-
-    console.log(process.env.CHROMEPOSITION)
+    if (!browserPath) browserPath = await getBrowserExe()
 
     const browser = await puppeteer.launch({
         headless: false,
-        executablePath: process.env.CHROMEPOSITION,
+        executablePath: browserPath,
         defaultViewport: null,
     });
     const pages = await browser.pages();
