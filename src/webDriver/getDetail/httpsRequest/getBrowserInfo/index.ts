@@ -1,5 +1,6 @@
 import puppeteer, { Page } from 'puppeteer';
 import { getBrowserExe } from './getBrowserExe';
+import { BASE_CONFIG } from '@/baseConfig';
 
 type GetBrowserInfo = () => Promise<{
     ua: string;
@@ -23,14 +24,14 @@ export const getBrowserInfo: GetBrowserInfo = async () => {
     const pages = await browser.pages();
     const page = pages[0];
 
-    await page.goto("https://www.qcc.com/weblogin");
+    await page.goto(`${BASE_CONFIG.BASE_URL}/weblogin`);
     await page.evaluate(() => alert('请注意, 登陆时请使用vip账号!'))
 
     const result = await new Promise<Page | null>(x => browser.once('targetchanged', target => x(target.page())))
 
     // TODO: 处理未成功跳转的情况
 
-    if (result?.url() !== 'https://www.qcc.com/') throw new Error;
+    if (result?.url() !== `${BASE_CONFIG.BASE_URL}/`) throw new Error;
 
     const cookie = (await page.cookies())?.[0]?.value
     const ua = await page.evaluate(() => navigator.userAgent)

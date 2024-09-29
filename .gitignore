@@ -11,6 +11,7 @@ node_modules/
 
 # 忽略环境配置文件
 .env
+env.d.ts
 
 # 忽略 MacOS 系统文件
 .DS_Store
@@ -21,12 +22,3 @@ node_modules/
 # 忽略特定目录下的内容
 cache/
 temp/
-
-# 排除某个文件
-!important.txt
-
-# 排除某个目录
-!docs/
-
-# 排除特定路径下的文件
-!/dist/main.js

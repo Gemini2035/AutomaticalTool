@@ -2,6 +2,7 @@ import axios, { AxiosRequestConfig, AxiosResponse, isAxiosError } from "axios";
 import { headerGenerator } from "./headerGenerator";
 import { setDelay } from "@/setDelay";
 import { getBrowserInfo } from "./getBrowserInfo";
+import { BASE_CONFIG } from "@/baseConfig";
 
 type HttpRequestOptions = Partial<{
   outputData: keyof AxiosResponse;
@@ -11,14 +12,14 @@ type HttpRequestOptions = Partial<{
 }>;
 
 const basicRequest = axios.create({
-  baseURL:'https://www.qcc.com',
+  baseURL: BASE_CONFIG.BASE_URL,
   method: "get",
   headers: {
     accept: "application/json, text/plain, */*",
     "accept-encoding": "gzip, deflate, br, zstd",
     "accept-language": "zh-CN,zh;q=0.9",
     priority: "u=1, i",
-    referer: "https://www.qcc.com/",
+    referer: BASE_CONFIG.BASE_URL,
     "sec-ch-ua": `"Not)A;Brand";v="99", "Google Chrome";v="127", "Chromium";v="127"`,
     "sec-ch-ua-mobile": "?0",
     "sec-ch-ua-platform": "Windows",
