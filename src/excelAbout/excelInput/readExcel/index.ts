@@ -1,8 +1,8 @@
-import { ExcelSheetItem, FileUrl } from "@/excelAbout/types";
+import { ExcelSheetItem, SysFileUrl } from "@/excelAbout/types";
 import XLSX from "xlsx"
 
 type ExcelOriginDataItem = Record<string, string>
-type ReadExcel = (fileUrl: FileUrl) => ExcelSheetItem[]
+type ReadExcel = (fileUrl: SysFileUrl) => ExcelSheetItem[]
 
 export const readExcel: ReadExcel = (fileUrl) => {
     // TODO: 鲁棒性拓展

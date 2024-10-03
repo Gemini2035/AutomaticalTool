@@ -1,9 +1,9 @@
 import { ExcelSheetItemWithKeys } from "../types";
 import { dataTransformer } from "./dataTransformer";
 import XLSX from "xlsx";
-import fs from "fs";
 import path from "path";
 import { timeFormater } from "./timeFormater";
+import { writeFile } from "@/fileHandle";
 
 
 type ExcelOutput = (input: ExcelSheetItemWithKeys[]) => void;
@@ -19,9 +19,5 @@ export const excelOutput: ExcelOutput = (input) => {
   const fileName = timeFormater(new Date());
   const outputPath = path.join("output", fileName + ".xlsx");
 
-  const dir = path.dirname(outputPath);
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir, { recursive: true });
-  }
-  XLSX.writeFile(workbook, outputPath);
+  writeFile(outputPath, () => XLSX.writeFile(workbook, outputPath))
 };
