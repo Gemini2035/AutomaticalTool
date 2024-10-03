@@ -1,17 +1,22 @@
 import { SysFileUrl } from "@/fileHandle/types";
 import { promises } from "fs";
-import { join, extname } from "path";
+import { join } from "path";
 
-type ReadFirstFileInDir = (dirname: string, needConsoleLog?: boolean) => Promise<SysFileUrl>
+type ReadFirstFileInDir = (dirname: string, filterFunc?: (data: SysFileUrl[]) => SysFileUrl[], needConsoleLog?: boolean) => Promise<SysFileUrl>
 
-export const readFirstFileInDir: ReadFirstFileInDir = async (dirname, needConsoleLog) => {
-    const inputDir = join(process.cwd(), dirname)
-    const files = await promises.readdir(inputDir)
-    const excelFiles = files.filter(file => {
-        const ext = extname(file).toLowerCase();
-        return ext === '.xlsx' || ext === '.xls';
-    });
-    const fileName = excelFiles.pop()
-    if (needConsoleLog) console.log(`已读取到 ${fileName} 文件`)
-    return join(inputDir, fileName || '')
+export const readFirstFileInDir: ReadFirstFileInDir = async (
+    dirname,
+    filterFunc = (data) => data,
+    needConsoleLog
+) => {
+    try {
+        const inputDir = join(process.cwd(), dirname)
+        const files = await promises.readdir(inputDir)
+        const excelFiles = filterFunc(files)
+        const fileName = excelFiles.pop()
+        if (needConsoleLog) console.log(`已读取到 ${fileName} 文件`)
+        return join(inputDir, fileName || '')
+    } catch (error) {
+        return ''
+    }
 }
