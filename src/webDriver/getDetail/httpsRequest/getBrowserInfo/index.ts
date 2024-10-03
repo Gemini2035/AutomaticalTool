@@ -1,13 +1,13 @@
 import puppeteer, { Page } from 'puppeteer';
 import { getBrowserExe } from './getBrowserExe';
-import { BASE_CONFIG } from '@/baseConfig';
+import BASE_CONFIG from '@/baseConfig';
 
 type GetBrowserInfo = () => Promise<{
     ua: string;
     cookie: string;
 }>
 
-let browserPath = process.env?.CHROMEPOSITION
+let browserPath = process.env?.CHROME_POSITION
 
 export const getBrowserInfo: GetBrowserInfo = async () => {
     console.log('需要在浏览器中完成操作...')
