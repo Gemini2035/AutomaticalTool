@@ -2,7 +2,7 @@ import axios, { AxiosRequestConfig, AxiosResponse, isAxiosError } from "axios";
 import { headerGenerator } from "./headerGenerator";
 import { setDelay } from "@/setDelay";
 import { getBrowserInfo } from "./getBrowserInfo";
-import { BASE_CONFIG } from "@/baseConfig";
+import BASE_CONFIG from "@/baseConfig";
 
 type HttpRequestOptions = Partial<{
   outputData: keyof AxiosResponse;
