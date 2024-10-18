@@ -14,8 +14,9 @@ export const readFirstFileInDir: ReadFirstFileInDir = async (
         const files = await promises.readdir(inputDir)
         const excelFiles = filterFunc(files)
         const fileName = excelFiles.pop()
+        if (!fileName) return ''
         if (needConsoleLog) console.log(`已读取到 ${fileName} 文件`)
-        return join(inputDir, fileName || '')
+        return join(inputDir, fileName)
     } catch (error) {
         return ''
     }
