@@ -1,12 +1,13 @@
 import BASE_CONFIG from "./baseConfig";
 import { restoreBreakPoint, storeBreakPoint } from "./breakPoint";
+import { ExcelSheetItemWithKeys } from "./copilot";
 import { excelInput, excelOutput } from "./excelAbout";
 import { webDriver } from "./webDriver";
 
 const main = async () => {
 
   let excelInputData = []
-  const dataForOutput = []
+  let dataForOutput: ExcelSheetItemWithKeys[] = []
   let total = 0
 
   const breakPoint = await restoreBreakPoint()
@@ -16,6 +17,11 @@ const main = async () => {
     console.log('正在恢复断点... 文件名: ', name)
     console.log('断点时间: ', pauseTime)
     excelInputData = remainData
+    dataForOutput = (await excelInput('output')).map(({data, ...restFields}) => ({
+      commerceKeys: Object.keys(data?.[0] || {}), 
+      data,
+      ...restFields
+    }))
     total = dataTotal
 
   } else {
@@ -24,8 +30,6 @@ const main = async () => {
     total = excelInputData.length
     console.log('excel 表内容读取完毕!')
   }
-
-  storeBreakPoint({ meta: { code: -1, msg: 'test' }, remainData: excelInputData, dataTotal: total, prevExcelFile: '' })
 
   console.log('开始获取数据...')
   const maxRequest = Number(BASE_CONFIG.MAX_DAILY_REQUEST)
@@ -48,7 +52,7 @@ const main = async () => {
   }
 
   console.log('正在写入excel表...')
-  excelOutput(dataForOutput, breakPoint?.prevExcelFile);
+  excelOutput(dataForOutput);
   console.log('写入excel表完毕!')
 };
 

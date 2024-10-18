@@ -1,4 +1,4 @@
-import { ExcelSheetItemWithKeys, SysFileUrl } from "../types";
+import { ExcelSheetItemWithKeys } from "../types";
 import { dataTransformer } from "./dataTransformer";
 import XLSX from "xlsx";
 import path from "path";
@@ -6,11 +6,10 @@ import { timeFormater } from "./timeFormater";
 import { writeFile } from "@/fileHandle";
 
 
-type ExcelOutput = (input: ExcelSheetItemWithKeys[], prevExcelFile?: SysFileUrl) => void;
+type ExcelOutput = (input: ExcelSheetItemWithKeys[]) => void;
 
-export const excelOutput: ExcelOutput = (input, prevExcelFile) => {
+export const excelOutput: ExcelOutput = (input) => {
   // TODO: 鲁棒性拓展
-  // TODO: 添加断点恢复
   const workbook = XLSX.utils.book_new();
   input.forEach(({ sheetName, commerceKeys, data }, index) => {
     const excelBuffer = [commerceKeys, ...dataTransformer(data, commerceKeys)];
